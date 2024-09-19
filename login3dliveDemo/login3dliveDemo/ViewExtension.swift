@@ -1,0 +1,36 @@
+//
+//  ViewExtension.swift
+//  3DLive
+//
+//  Created by Kamal on 27/08/24.
+//
+
+import Foundation
+import SwiftUI
+
+extension View {
+    func border(_ color: Color, width: CGFloat, cornerRadius: CGFloat) -> some View {
+        overlay(RoundedRectangle(cornerRadius: cornerRadius).stroke(color, lineWidth: width))
+    }
+    
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    }
+    
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
+}
+
+
+struct RoundedCorner: Shape {
+    
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+    
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
